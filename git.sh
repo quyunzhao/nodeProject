@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="前后端 jwt身份认证 错误处理"
+msg="init"
 
 if [ -n "${msg}" ]; then
     git pull
