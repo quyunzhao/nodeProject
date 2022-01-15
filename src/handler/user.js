@@ -1,6 +1,8 @@
 // 导入数据库操作模块
-
 const db = require("../../db");
+
+// 密码加密
+const bcrypt = require("bcryptjs");
 
 /** 新用户注册*/
 const registerHandler = (req, res) => {
@@ -19,27 +21,52 @@ const registerHandler = (req, res) => {
 
   db.query(sqlStr, [username], (err, result) => {
     if (err) {
-      res.status(400).send({
+      return res.status(500).send({
         code: "register",
         data: {},
         msg: err.message,
       });
     }
-    if (!result) {
-      res.status(500).send({
+    // 长度不为 0 说明存在相同的值
+    if (result.length) {
+      return res.status(500).send({
         code: "register",
         data: {},
         msg: "用户存在！",
       });
     }
-    // 插入用户
     // 加密密码
+    const pwd = bcrypt.hashSync(password, 10);
+    // 插入用户sql
+    const sqlInsert = `insert into ev_users set ?`;
+    // 插入数据库的用户信息
+    const userInfo = {
+      username,
+      password: pwd,
+    };
 
-    // 最后进行成功返回
-    res.send({
-      code: "register",
-      data: {},
-      msg: "ok",
+    db.query(sqlInsert, userInfo, (err, result) => {
+      if (err) {
+        return res.status(500).send({
+          code: "register",
+          data: {},
+          msg: err.message,
+        });
+      }
+      if (result.affectedRows !== 1) {
+        return res.status(500).send({
+          code: "register",
+          data: {},
+          msg: "系统繁忙！",
+        });
+      }
+
+      // 最后进行成功返回
+      res.send({
+        code: "register",
+        data: {},
+        msg: "ok",
+      });
     });
   });
 

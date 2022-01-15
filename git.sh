@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="注册用户 判断用户是否存在"
+msg="注册用户 密码加密"
 
 if [ -n "${msg}" ]; then
     git pull
