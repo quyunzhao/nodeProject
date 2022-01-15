@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="init"
+msg="连接数据库"
 
 if [ -n "${msg}" ]; then
     git pull

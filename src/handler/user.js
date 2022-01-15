@@ -1,4 +1,4 @@
-/** 新用户*/
+/** 新用户注册*/
 const registerHandler = (req, res) => {
   res.send({
     code: "register",
