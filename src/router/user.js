@@ -1,22 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-// 注册新用户
-router.post("/register", (req, res) => {
-  res.send({
-    code: 1,
-    data: { data: "" },
-    msg: "注册新用户",
-  });
-});
+const { registerHandler, loginHandler } = require("../handler/user");
 
-// 登录
-router.post("/login", (req, res) => {
-  res.send({
-    code: 1,
-    data: { data: "" },
-    msg: " ",
-  });
-});
+/** 注册新用户*/
+router.post("/register", registerHandler);
+
+/** 登录 */
+router.post("/login", loginHandler);
 
 module.exports = router;
