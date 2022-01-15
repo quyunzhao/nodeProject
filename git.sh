@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="连接数据库"
+msg="注册用户 判断用户是否存在"
 
 if [ -n "${msg}" ]; then
     git pull
