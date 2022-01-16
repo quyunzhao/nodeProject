@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // 导入密钥
-const { secretKey, expiresIn } = require("../../config/cfg.json");
+const { secretKey, expiresIn } = require("../../config");
 
 const {
   error_50000,

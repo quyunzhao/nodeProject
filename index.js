@@ -6,7 +6,7 @@ const cors = require("cors");
 const expressJWT = require("express-jwt");
 
 // 导入密钥
-const { secretKey } = require("./config/cfg.json");
+const { secretKey } = require("./config");
 
 /** 导入自定义send 函数 */
 const mySend = require("./src/customMiddleware/send");
@@ -15,7 +15,7 @@ const mySend = require("./src/customMiddleware/send");
 const errorHandler = require("./src/customMiddleware/catchError");
 
 // 导入 api 前缀
-const { prefixApi, port } = require("./config/cfg.json");
+const { prefixApi, port } = require("./config");
 
 // 导入 api 路由
 const userRouter = require("./src/router/user");
