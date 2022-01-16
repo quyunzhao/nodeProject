@@ -1,7 +1,9 @@
 const express = require("express");
-const router = express.Router();
+
 //  导入 @escook/express-joi
 const expressJoi = require("@escook/express-joi");
+
+const router = express.Router();
 
 // 导入校验 规则
 const { registerSchema } = require("../schema/user");

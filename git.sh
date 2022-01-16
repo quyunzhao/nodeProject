@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="注册用户 接口数据校验 下载校验包"
+msg="注册用户 接口数据校验"
 
 if [ -n "${msg}" ]; then
     git pull
