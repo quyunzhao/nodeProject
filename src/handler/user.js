@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 // 导入密钥
 const { secretKey, expiresIn } = require("../../config");
 
+// 错误码
 const {
   error_50000,
   error_50001,
