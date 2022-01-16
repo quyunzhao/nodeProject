@@ -9,12 +9,19 @@ const router = express.Router();
 const { registerSchema, loginSchema } = require("../schema/user");
 
 // 导入处理函数
-const { registerHandler, loginHandler } = require("../handler/user");
+const {
+  registerHandler,
+  loginHandler,
+  userInfoHandler,
+} = require("../handler/user");
 
 /** 注册新用户*/
 router.post("/register", expressJoi(registerSchema), registerHandler);
 
 /** 登录 */
 router.post("/login", expressJoi(loginSchema), loginHandler);
+
+/** 用户信息 */
+router.get("/userInfo", userInfoHandler);
 
 module.exports = router;

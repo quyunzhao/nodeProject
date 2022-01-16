@@ -1,5 +1,6 @@
 const express = require("express");
 
+// 导入跨域组件
 const cors = require("cors");
 
 // 导入 jwt 解密包

@@ -18,7 +18,7 @@ const {
   error_50005,
 } = require("../error");
 
-/** 新用户注册*/
+/** 新用户注册 */
 const registerHandler = (req, res) => {
   const { username, password } = req.body;
 
@@ -67,7 +67,7 @@ const registerHandler = (req, res) => {
   });
 };
 
-/** 登录*/
+/** 登录 */
 const loginHandler = (req, res) => {
   // 查询用户是否存在
   const { username, password } = req.body;
@@ -113,4 +113,15 @@ const loginHandler = (req, res) => {
   });
 };
 
-module.exports = { registerHandler, loginHandler };
+/** 用户详情信息 */
+const userInfoHandler = (req, res) => {
+  const data = {
+    msg: "ok",
+    data: {},
+  };
+
+  /** 调用自定义 send函数  */
+  return res.customSend(data);
+};
+
+module.exports = { registerHandler, loginHandler, userInfoHandler };
