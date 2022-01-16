@@ -10,6 +10,7 @@ const {
   creatCatesSchema,
   deleteCatesSchema,
   catesByIdSchema,
+  updateCatesSchema,
 } = require("../schema/article");
 
 // 导入处理函数
@@ -18,6 +19,7 @@ const {
   creatCatesHandler,
   deleteCatesHandler,
   catesByIdHandler,
+  updateCatesHandler,
 } = require("../handler/article");
 
 /** 文章列表 */
@@ -35,6 +37,9 @@ router.delete(
 
 /** 根据id获取文章列表 */
 router.get("/cates/:id", expressJoi(catesByIdSchema), catesByIdHandler);
+
+/** 根据 id 更新文章数据 */
+router.post("/updateCates", expressJoi(updateCatesSchema), updateCatesHandler);
 
 // 导出模块
 module.exports = router;

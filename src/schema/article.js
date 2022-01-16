@@ -23,5 +23,19 @@ const catesByIdSchema = {
   },
 };
 
+/** 根据 id 更新文章数据 */
+const updateCatesSchema = {
+  body: {
+    id: Joi.number().integer().min(1).required(),
+    name: Joi.string().required(),
+    alias: Joi.string().required(),
+  },
+};
+
 // 导出
-module.exports = { creatCatesSchema, deleteCatesSchema, catesByIdSchema };
+module.exports = {
+  creatCatesSchema,
+  deleteCatesSchema,
+  catesByIdSchema,
+  updateCatesSchema,
+};

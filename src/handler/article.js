@@ -8,6 +8,7 @@ const {
   error_50009,
   error_50010,
   error_50011,
+  error_50012,
 } = require("../error");
 
 /** 获取文章列表 */
@@ -134,10 +135,83 @@ const catesByIdHandler = (req, res) => {
   });
 };
 
+/** 根据 id 更新文章数据 */
+const updateCatesHandler = (req, res) => {
+  const { id, name, alias } = req.body;
+  // 定义 sql
+  const sqlStr = `SELECT * FROM ev_article_cate where id=? and is_delete = 0`;
+  // 查询
+  db.query(sqlStr, [id], (err, result) => {
+    if (err) {
+      return res.customSend({ ...error_50000, msg: err.message }, 500);
+    }
+    // 长度为 0 说明不存在
+    if (!result.length) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50010 }, 400);
+    }
+
+    // 定义查重语句
+    const sql = `SELECT * FROM ev_article_cate where id<>? and is_delete = 0 and (name=? or alias=?)`;
+
+    db.query(sql, [id, name, alias], (err, result) => {
+      if (err) {
+        return res.customSend({ ...error_50000, msg: err.message }, 500);
+      }
+
+      // 名称和别名都被占用
+      if (result.length === 2) {
+        return res.customSend({ ...error_50012 }, 400);
+      }
+      if (
+        result.length === 1 &&
+        result[0].name === name &&
+        result[0].alias === alias
+      ) {
+        return res.customSend({ ...error_50012 }, 400);
+      }
+      // 名称重复
+      if (result.length === 1 && result[0].name === name) {
+        return res.customSend({ ...error_50008 }, 400);
+      }
+      // 别名重复
+      if (result.length === 1 && result[0].alias === alias) {
+        return res.customSend({ ...error_50009 }, 400);
+      }
+      // 开始更新
+      // 更新 sql
+      const sqlUpdate = `update ev_article_cate set ? where id=?`;
+
+      const info = {
+        name,
+        alias,
+      };
+
+      db.query(sqlUpdate, [info, id], (err, result) => {
+        if (err) {
+          /** 调用自定义 send函数  */
+          return res.customSend({ ...error_50000, msg: err.message }, 500);
+        }
+        if (result.affectedRows !== 1) {
+          return res.customSend({ ...error_50011 }, 500);
+        }
+        // 更新成功
+        const data = {
+          msg: "ok",
+          data: {},
+        };
+        /** 调用自定义 send函数  */
+        return res.customSend(data);
+      });
+    });
+  });
+};
+
 // 导出
 module.exports = {
   catesHandler,
   creatCatesHandler,
   deleteCatesHandler,
   catesByIdHandler,
+  updateCatesHandler,
 };

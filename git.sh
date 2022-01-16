@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="根据id获取文章数据"
+msg="根据id更新文章数据"
 
 if [ -n "${msg}" ]; then
     git pull
