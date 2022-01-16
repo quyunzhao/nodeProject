@@ -59,7 +59,7 @@ const modifySchema = {
   },
 };
 
-/** 重置密码规则 */
+/** 修改密码规则 */
 const restPasswordSchema = {
   body: {
     id: Joi.number().integer().min(1).required(),

@@ -34,7 +34,7 @@ router.get("/userInfo", userInfoHandler);
 /** 修改用户信息 */
 router.post("/modifyUser", expressJoi(modifySchema), modifyUserHandler);
 
-/** 重置密码 */
+/** 修改密码 */
 router.post(
   "/restPassword",
   expressJoi(restPasswordSchema),

@@ -6,5 +6,5 @@
   "password": "123456",
   "database": "my_db_test",
   "secretKey": "Qu YUN Zhao @3h jui",
-  "expiresIn": "30m"
+  "expiresIn": "10h"
 }

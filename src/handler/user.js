@@ -17,6 +17,7 @@ const {
   error_50004,
   error_50005,
   error_50006,
+  error_50007,
 } = require("../error");
 
 /** 新用户注册 */
@@ -176,32 +177,58 @@ const modifyUserHandler = (req, res) => {
 
 /** 修改用户密码 */
 const restPasswordHandler = (req, res) => {
-  const { newPassword, oldPassword } = req.body;
+  const { newPassword, oldPassword, id } = req.body;
 
-  const userInfo = {
-    nickname,
-    email,
-    id,
-  };
+  const sqlStr = `select * from ev_users where id=?`;
 
-  const sqlStr = `update ev_users set ? where id=?`;
-
-  db.query(sqlStr, [userInfo, id], (err, result) => {
+  // 根据id 查询用户信息
+  db.query(sqlStr, [id], (err, result) => {
     if (err) {
       /** 调用自定义 send函数  */
       return res.customSend({ ...error_50000, msg: err.message }, 500);
     }
-    if (result.affectedRows !== 1) {
-      return res.customSend({ ...error_50006 }, 500);
+    // 长度为 0 说明不存在该用户
+    if (!result.length) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50004 }, 400);
+    }
+    // 查询用户成功
+    // 比较旧密码是否和数据库一致
+    // 比较密码 相同返回 true
+    const pwdCompare = bcrypt.compareSync(oldPassword, result[0].password);
+    // 不一致
+    if (!pwdCompare) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50007 }, 400);
     }
 
-    // 更新成功
-    const data = {
-      msg: "ok",
-      data: {},
+    // 密码一致开始更新
+    // 加密密码
+    const pwd = bcrypt.hashSync(newPassword, 10);
+
+    const userInfo = {
+      password: pwd,
     };
-    /** 调用自定义 send函数  */
-    return res.customSend(data);
+
+    //  更新用户sql
+    const sqlUpdate = `update ev_users set ? where id=?`;
+
+    db.query(sqlUpdate, [userInfo, id], (err, result) => {
+      if (err) {
+        /** 调用自定义 send函数  */
+        return res.customSend({ ...error_50000, msg: err.message }, 500);
+      }
+      if (result.affectedRows !== 1) {
+        return res.customSend({ ...error_50006 }, 500);
+      }
+      // 更新成功
+      const data = {
+        msg: "ok",
+        data: {},
+      };
+      /** 调用自定义 send函数  */
+      return res.customSend(data);
+    });
   });
 };
 
