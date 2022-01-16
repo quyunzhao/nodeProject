@@ -32,6 +32,7 @@ const pwd = Joi.string()
 /** 用户名校验规则 */
 const username = Joi.string().alphanum().min(3).max(12).required();
 
+/** 注册新用户规则 */
 const registerSchema = {
   // 2.1 校验 req.body 中的数据
   body: {
@@ -41,14 +42,15 @@ const registerSchema = {
   },
 };
 
+/** 登录规则 */
 const loginSchema = {
   body: {
     username: username,
     password: pwd,
-    repassword: Joi.ref("password"),
   },
 };
 
+/** 修改用户规则 */
 const modifySchema = {
   body: {
     id: Joi.number().integer().min(1).required(),
@@ -57,14 +59,7 @@ const modifySchema = {
   },
 };
 
-const modifySchema = {
-  body: {
-    id: Joi.number().integer().min(1).required(),
-    nickname: Joi.string().required(),
-    email: Joi.string().email().required(),
-  },
-};
-
+/** 重置密码规则 */
 const restPasswordSchema = {
   body: {
     id: Joi.number().integer().min(1).required(),
