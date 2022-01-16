@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="新建ev_articles文章表"
+msg="发布文章"
 
 if [ -n "${msg}" ]; then
     git pull

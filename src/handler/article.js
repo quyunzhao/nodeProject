@@ -11,7 +11,7 @@ const {
   error_50012,
 } = require("../error");
 
-/** 获取文章列表 */
+/** 获取文章分类列表 */
 const catesHandler = (req, res) => {
   // 定义 sql
   const sqlStr = `SELECT * FROM ev_article_cate where is_delete=0 order by id asc`;
@@ -24,7 +24,7 @@ const catesHandler = (req, res) => {
   });
 };
 
-/** 新增文章  */
+/** 新增文章分类  */
 const creatCatesHandler = (req, res) => {
   const { name, alias } = req.body;
   // 定义 sql
@@ -77,7 +77,7 @@ const creatCatesHandler = (req, res) => {
   });
 };
 
-/** 删除文章 */
+/** 删除文章分类 */
 const deleteCatesHandler = (req, res) => {
   const { id } = req.params;
 
@@ -116,7 +116,7 @@ const deleteCatesHandler = (req, res) => {
   });
 };
 
-/** 根据id获取文章列表 */
+/** 根据id获取文章分类列表 */
 const catesByIdHandler = (req, res) => {
   const { id } = req.params;
   // 定义 sql
@@ -135,7 +135,7 @@ const catesByIdHandler = (req, res) => {
   });
 };
 
-/** 根据 id 更新文章数据 */
+/** 根据 id 更新文章分类数据 */
 const updateCatesHandler = (req, res) => {
   const { id, name, alias } = req.body;
   // 定义 sql

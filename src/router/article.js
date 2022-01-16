@@ -25,20 +25,23 @@ const {
 /** 文章列表 */
 router.get("/cates", catesHandler);
 
-/** 新增文章 */
+/** 新增文章分类 */
 router.post("/creatCates", expressJoi(creatCatesSchema), creatCatesHandler);
 
-/** 删除文章 */
+/** 删除文章分类 */
 router.delete(
   "/deleteCates/:id",
   expressJoi(deleteCatesSchema),
   deleteCatesHandler
 );
 
-/** 根据id获取文章列表 */
+/** 根据id获取文章分类列表 */
 router.get("/cates/:id", expressJoi(catesByIdSchema), catesByIdHandler);
 
-/** 根据 id 更新文章数据 */
+/** 根据 id 更新文章分类数据 */
+router.post("/updateCates", expressJoi(updateCatesSchema), updateCatesHandler);
+
+/** 发布文章 */
 router.post("/updateCates", expressJoi(updateCatesSchema), updateCatesHandler);
 
 // 导出模块
