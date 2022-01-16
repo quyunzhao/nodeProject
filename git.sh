@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="注册用户 密码加密"
+msg="注册用户 代码优化"
 
 if [ -n "${msg}" ]; then
     git pull
