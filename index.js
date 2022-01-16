@@ -18,8 +18,11 @@ const errorHandler = require("./src/customMiddleware/catchError");
 // 导入 api 前缀
 const { prefixApi, port } = require("./config");
 
-// 导入 api 路由
+// 导入 用户 路由
 const userRouter = require("./src/router/user");
+
+// 导入 文章 路由
+const articleRouter = require("./src/router/article");
 
 // 创建服务器
 const app = express();
@@ -43,6 +46,7 @@ app.use(mySend);
 const witeList = ["/", "/register", "/login"].map((item) => {
   return prefixApi + item;
 });
+
 app.use(
   expressJWT({
     secret: secretKey,
@@ -55,6 +59,8 @@ app.use(
 
 // 添加前缀 注册路由
 app.use(prefixApi, userRouter);
+
+app.use(prefixApi + "/article", articleRouter);
 
 // 注册全局错误中间键
 app.use(errorHandler);
