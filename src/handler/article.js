@@ -152,7 +152,7 @@ const updateCatesHandler = (req, res) => {
     }
 
     // 定义查重语句
-    const sql = `SELECT * FROM ev_article_cate where id<>? and is_delete = 0 and (name=? or alias=?)`;
+    const sql = `SELECT * FROM ev_article_cate where id<>? and (name=? or alias=?)`;
 
     db.query(sql, [id, name, alias], (err, result) => {
       if (err) {
