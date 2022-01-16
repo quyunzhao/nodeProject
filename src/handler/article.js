@@ -125,7 +125,12 @@ const catesByIdHandler = (req, res) => {
     if (err) {
       return res.customSend({ ...error_50000, msg: err.message }, 500);
     }
-    return res.customSend({ data: result });
+    // 长度为 0 说明不存在
+    if (!result.length) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50010 }, 400);
+    }
+    return res.customSend({ data: result[0] });
   });
 };
 
