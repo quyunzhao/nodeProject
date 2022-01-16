@@ -232,6 +232,48 @@ const restPasswordHandler = (req, res) => {
   });
 };
 
+/** 修改用户图像 */
+const avatarHandler = (req, res) => {
+  const { avatar, id } = req.body;
+
+  // 先查询用户
+  const sqlStr = `select * from ev_users where id=?`;
+  db.query(sqlStr, [id], (err, result) => {
+    if (err) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50000, msg: err.message }, 500);
+    }
+    // 长度为 0 说明不存在该用户
+    if (!result.length) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50004 }, 400);
+    }
+    // 查询用户成功
+    const userInfo = {
+      user_pic: avatar,
+    };
+    // 定义sql
+    const sqlUpdate = `update ev_users set ? where id=?`;
+
+    db.query(sqlUpdate, [userInfo, id], (err, result) => {
+      if (err) {
+        /** 调用自定义 send函数  */
+        return res.customSend({ ...error_50000, msg: err.message }, 500);
+      }
+      if (result.affectedRows !== 1) {
+        return res.customSend({ ...error_50006 }, 500);
+      }
+      // 更新成功
+      const data = {
+        msg: "ok",
+        data: {},
+      };
+      /** 调用自定义 send函数  */
+      return res.customSend(data);
+    });
+  });
+};
+
 // 导出
 module.exports = {
   registerHandler,
@@ -239,4 +281,5 @@ module.exports = {
   userInfoHandler,
   modifyUserHandler,
   restPasswordHandler,
+  avatarHandler,
 };

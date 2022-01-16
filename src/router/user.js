@@ -11,6 +11,7 @@ const {
   loginSchema,
   modifySchema,
   restPasswordSchema,
+  avatarSchema,
 } = require("../schema/user");
 
 // 导入处理函数
@@ -20,6 +21,7 @@ const {
   userInfoHandler,
   modifyUserHandler,
   restPasswordHandler,
+  avatarHandler,
 } = require("../handler/user");
 
 /** 注册新用户*/
@@ -40,6 +42,9 @@ router.post(
   expressJoi(restPasswordSchema),
   restPasswordHandler
 );
+
+/** 修改用户图像   */
+router.post("/update/avatar", expressJoi(avatarSchema), avatarHandler);
 
 // 导出模块
 module.exports = router;

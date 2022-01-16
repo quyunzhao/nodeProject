@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="注册用户 修改密码"
+msg="注册用户 修改用户图像"
 
 if [ -n "${msg}" ]; then
     git pull

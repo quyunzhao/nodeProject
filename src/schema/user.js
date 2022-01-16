@@ -68,9 +68,18 @@ const restPasswordSchema = {
   },
 };
 
+/** 修改图像规则 */
+const avatarSchema = {
+  body: {
+    id: Joi.number().integer().min(1).required(),
+    avatar: Joi.string().dataUri().required(),
+  },
+};
+
 module.exports = {
   registerSchema,
   loginSchema,
   modifySchema,
   restPasswordSchema,
+  avatarSchema,
 };
