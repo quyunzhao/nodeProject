@@ -16,5 +16,12 @@ const deleteCatesSchema = {
   },
 };
 
+/** 根据id获取文章列表 */
+const catesByIdSchema = {
+  params: {
+    id: Joi.number().integer().min(1).required(),
+  },
+};
+
 // 导出
-module.exports = { creatCatesSchema, deleteCatesSchema };
+module.exports = { creatCatesSchema, deleteCatesSchema, catesByIdSchema };

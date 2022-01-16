@@ -6,13 +6,18 @@ const expressJoi = require("@escook/express-joi");
 const router = express.Router();
 
 // 导入校验 规则
-const { creatCatesSchema, deleteCatesSchema } = require("../schema/article");
+const {
+  creatCatesSchema,
+  deleteCatesSchema,
+  catesByIdSchema,
+} = require("../schema/article");
 
 // 导入处理函数
 const {
   catesHandler,
   creatCatesHandler,
   deleteCatesHandler,
+  catesByIdHandler,
 } = require("../handler/article");
 
 /** 文章列表 */
@@ -27,6 +32,9 @@ router.delete(
   expressJoi(deleteCatesSchema),
   deleteCatesHandler
 );
+
+/** 根据id获取文章列表 */
+router.get("/cates/:id", expressJoi(catesByIdSchema), catesByIdHandler);
 
 // 导出模块
 module.exports = router;

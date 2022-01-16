@@ -115,5 +115,24 @@ const deleteCatesHandler = (req, res) => {
   });
 };
 
+/** 根据id获取文章列表 */
+const catesByIdHandler = (req, res) => {
+  const { id } = req.params;
+  // 定义 sql
+  const sqlStr = `SELECT * FROM ev_article_cate where id=? and is_delete = 0`;
+  // 查询
+  db.query(sqlStr, [id], (err, result) => {
+    if (err) {
+      return res.customSend({ ...error_50000, msg: err.message }, 500);
+    }
+    return res.customSend({ data: result });
+  });
+};
+
 // 导出
-module.exports = { catesHandler, creatCatesHandler, deleteCatesHandler };
+module.exports = {
+  catesHandler,
+  creatCatesHandler,
+  deleteCatesHandler,
+  catesByIdHandler,
+};
