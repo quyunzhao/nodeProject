@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="文章"
+msg="新增文章"
 
 if [ -n "${msg}" ]; then
     git pull
