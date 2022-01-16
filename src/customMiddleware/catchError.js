@@ -1,5 +1,5 @@
 // 导入 Joi 来定义验证规则
-const Joi = require("@hapi/joi");
+const Joi = require("joi");
 
 // 导入错误码
 const { error_401, error_50000, error_50003 } = require("../error");

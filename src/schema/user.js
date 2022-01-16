@@ -1,10 +1,10 @@
 // 导入 Joi 来定义验证规则
-const Joi = require("@hapi/joi");
+const Joi = require("joi");
 
 //   定义验证规则
 // 注意：如果客户端提交的某些参数项未在 schema 中定义，
 // 此时，这些多余的参数项默认会被忽略掉
-const userSchema = {
+const demoSchema = {
   // 2.1 校验 req.body 中的数据
   body: {
     username: Joi.string().alphanum().min(3).max(12).required(),
@@ -35,6 +35,17 @@ const registerSchema = {
   },
 };
 
+const loginSchema = {
+  body: {
+    username: Joi.string().alphanum().min(3).max(12).required(),
+    password: Joi.string()
+      .pattern(/^[\S]{6,15}$/)
+      .required(),
+    // repassword: Joi.ref("password"),
+  },
+};
+
 module.exports = {
   registerSchema,
+  loginSchema,
 };

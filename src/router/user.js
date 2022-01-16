@@ -6,7 +6,7 @@ const expressJoi = require("@escook/express-joi");
 const router = express.Router();
 
 // 导入校验 规则
-const { registerSchema } = require("../schema/user");
+const { registerSchema, loginSchema } = require("../schema/user");
 
 // 导入处理函数
 const { registerHandler, loginHandler } = require("../handler/user");
@@ -15,6 +15,6 @@ const { registerHandler, loginHandler } = require("../handler/user");
 router.post("/register", expressJoi(registerSchema), registerHandler);
 
 /** 登录 */
-router.post("/login", loginHandler);
+router.post("/login", expressJoi(loginSchema), loginHandler);
 
 module.exports = router;
