@@ -4,16 +4,20 @@ const db = require("../../db");
 // 密码加密
 const bcrypt = require("bcryptjs");
 
+const { error_50001, error_50000, error_50002 } = require("../error");
+
 /** 新用户注册*/
 const registerHandler = (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).send({
-      code: "register",
-      data: {},
-      msg: "用户名或密码不能为空！",
-    });
+    // return res.status(400).send({
+    //   code: "register",
+    //   data: {},
+    //   msg: "用户名或密码不能为空！",
+    // });
+    /** 调用自定义 send函数  */
+    return res.customSend({ ...error_50001, msg: "hhh" }, 400);
   }
 
   // 定义sql 语句查询用户名是否被占用
@@ -21,19 +25,23 @@ const registerHandler = (req, res) => {
 
   db.query(sqlStr, [username], (err, result) => {
     if (err) {
-      return res.status(500).send({
-        code: "register",
-        data: {},
-        msg: err.message,
-      });
+      // return res.status(500).send({
+      //   code: "register",
+      //   data: {},
+      //   msg: err.message,
+      // });
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50000, msg: err.message }, 500);
     }
     // 长度不为 0 说明存在相同的值
     if (result.length) {
-      return res.status(500).send({
-        code: "register",
-        data: {},
-        msg: "用户存在！",
-      });
+      // return res.status(500).send({
+      //   code: "register",
+      //   data: {},
+      //   msg: "用户存在！",
+      // });
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50002 }, 400);
     }
     // 加密密码
     const pwd = bcrypt.hashSync(password, 10);
@@ -47,34 +55,35 @@ const registerHandler = (req, res) => {
 
     db.query(sqlInsert, userInfo, (err, result) => {
       if (err) {
-        return res.status(500).send({
-          code: "register",
-          data: {},
-          msg: err.message,
-        });
+        // return res.status(500).send({
+        //   code: "register",
+        //   data: {},
+        //   msg: err.message,
+        // });
+        /** 调用自定义 send函数  */
+        return res.customSend({ ...error_50000, msg: err.message }, 500);
       }
       if (result.affectedRows !== 1) {
-        return res.status(500).send({
-          code: "register",
-          data: {},
-          msg: "系统繁忙！",
-        });
+        // return res.status(500).send({
+        //   code: "register",
+        //   data: {},
+        //   msg: "系统繁忙！",
+        // });
+        /** 调用自定义 send函数  */
+        return res.customSend({ ...error_50000 }, 500);
       }
 
       // 最后进行成功返回
-      res.send({
-        code: "register",
-        data: {},
-        msg: "ok",
-      });
+      // res.send({
+      //   code: "register",
+      //   data: {},
+      //   msg: "ok",
+      // });
+
+      /** 调用自定义 send函数  */
+      return res.customSend({ msg: "ok" });
     });
   });
-
-  // res.send({
-  //   code: "register",
-  //   data: { data: "" },
-  //   msg: "注册新用户",
-  // });
 };
 
 /** 登录*/
