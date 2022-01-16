@@ -5,6 +5,9 @@ const cors = require("cors");
 /** 导入自定义send 函数 */
 const mySend = require("./src/customMiddleware/send");
 
+// 导入全局处理错误 函数
+const errorHandler = require("./src/customMiddleware/catchError");
+
 // 导入 api 前缀
 const { prefixApi, port } = require("./config/cfg.json");
 
@@ -32,24 +35,7 @@ app.use(mySend);
 app.use(prefixApi, userRouter);
 
 // 注册全局错误中间键
-app.use((err, req, res, next) => {
-  // 判断错误 是由 token 解析失败导致的
-  if (err.name === "UnauthorizedError") {
-    return res.status(401).send({
-      code: 401,
-      data: { data: err.message },
-      msg: "权限过期",
-    });
-  }
-
-  if (err) {
-    res.status(500).send({
-      code: 500,
-      data: { data: err.message },
-      msg: "系统繁忙",
-    });
-  }
-});
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`server star at http://127.0.0.1:${port}`);
