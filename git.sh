@@ -1,7 +1,7 @@
 #!/bin/bash
 export LANG="en_US.UTF-8"
 
-msg="新增文章"
+msg="根据id删除文章接口"
 
 if [ -n "${msg}" ]; then
     git pull

@@ -2,7 +2,13 @@
 const db = require("../../db");
 
 // 错误码
-const { error_50000, error_50008, error_50009 } = require("../error");
+const {
+  error_50000,
+  error_50008,
+  error_50009,
+  error_50010,
+  error_50011,
+} = require("../error");
 
 /** 获取文章列表 */
 const catesHandler = (req, res) => {
@@ -70,5 +76,44 @@ const creatCatesHandler = (req, res) => {
   });
 };
 
+/** 删除文章 */
+const deleteCatesHandler = (req, res) => {
+  const { id } = req.params;
+
+  const sqlStr = `select * from ev_article_cate where id=? and is_delete = 0`;
+  db.query(sqlStr, [id], (err, result) => {
+    if (err) {
+      return res.customSend({ ...error_50000, msg: err.message }, 500);
+    }
+    // 长度为 0 说明不存在
+    if (!result.length) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50010 }, 400);
+    }
+
+    // 更新 sql
+    const sqlUpdate = `update ev_article_cate set ? where id=?`;
+    const info = {
+      is_delete: 1,
+    };
+    db.query(sqlUpdate, [info, id], (err, result) => {
+      if (err) {
+        /** 调用自定义 send函数  */
+        return res.customSend({ ...error_50000, msg: err.message }, 500);
+      }
+      if (result.affectedRows !== 1) {
+        return res.customSend({ ...error_50011 }, 500);
+      }
+      // 更新成功
+      const data = {
+        msg: "ok",
+        data: {},
+      };
+      /** 调用自定义 send函数  */
+      return res.customSend(data);
+    });
+  });
+};
+
 // 导出
-module.exports = { catesHandler, creatCatesHandler };
+module.exports = { catesHandler, creatCatesHandler, deleteCatesHandler };
