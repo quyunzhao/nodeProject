@@ -99,7 +99,9 @@ const loginHandler = (req, res) => {
 
     // 生成 jwt 的 token
     // 会自动挂载到 req.user 上
-    const token = "Bearer " + jwt.sign({ username }, secretKey, { expiresIn });
+    const token =
+      "Bearer " +
+      jwt.sign({ username, id: result?.[0]?.id }, secretKey, { expiresIn });
 
     const data = {
       msg: "ok",
@@ -115,13 +117,29 @@ const loginHandler = (req, res) => {
 
 /** 用户详情信息 */
 const userInfoHandler = (req, res) => {
-  const data = {
-    msg: "ok",
-    data: {},
-  };
+  const sqlStr = `select id, username, nickname, email, user_pic from ev_users where id=?`;
 
-  /** 调用自定义 send函数  */
-  return res.customSend(data);
+  db.query(sqlStr, req?.user?.id, (err, result) => {
+    // 执行失败
+    if (err) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50000, msg: err.message }, 500);
+    }
+
+    // 长度为 0 说明不存在用户
+    if (!result.length) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_401 }, 401);
+    }
+
+    const data = {
+      msg: "ok",
+      data: result[0],
+    };
+
+    /** 调用自定义 send函数  */
+    return res.customSend(data);
+  });
 };
 
 module.exports = { registerHandler, loginHandler, userInfoHandler };
