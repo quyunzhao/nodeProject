@@ -24,23 +24,27 @@ const demoSchema = {
   },
 };
 
+/** 密码校验规则 */
+const pwd = Joi.string()
+  .pattern(/^[\S]{6,15}$/)
+  .required();
+
+/** 用户名校验规则 */
+const username = Joi.string().alphanum().min(3).max(12).required();
+
 const registerSchema = {
   // 2.1 校验 req.body 中的数据
   body: {
-    username: Joi.string().alphanum().min(3).max(12).required(),
-    password: Joi.string()
-      .pattern(/^[\S]{6,15}$/)
-      .required(),
+    username: username,
+    password: pwd,
     repassword: Joi.ref("password"),
   },
 };
 
 const loginSchema = {
   body: {
-    username: Joi.string().alphanum().min(3).max(12).required(),
-    password: Joi.string()
-      .pattern(/^[\S]{6,15}$/)
-      .required(),
+    username: username,
+    password: pwd,
     repassword: Joi.ref("password"),
   },
 };
@@ -53,8 +57,25 @@ const modifySchema = {
   },
 };
 
+const modifySchema = {
+  body: {
+    id: Joi.number().integer().min(1).required(),
+    nickname: Joi.string().required(),
+    email: Joi.string().email().required(),
+  },
+};
+
+const restPasswordSchema = {
+  body: {
+    id: Joi.number().integer().min(1).required(),
+    newPassword: pwd,
+    oldPassword: Joi.not(Joi.ref("newPassword")).concat(pwd),
+  },
+};
+
 module.exports = {
   registerSchema,
   loginSchema,
   modifySchema,
+  restPasswordSchema,
 };
