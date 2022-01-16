@@ -8,11 +8,7 @@ const mySend = (req, res, next) => {
    * @param status 默认值为1 表示失败
    */
   res.customSend = (data, statusCode = 200, err = "", status = 1) => {
-    res.status(statusCode).send({
-      // status,
-      data,
-      // message: err instanceof Error ? err.message : err,
-    });
+    res.status(statusCode).send(data);
   };
 
   next();
