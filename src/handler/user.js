@@ -16,6 +16,7 @@ const {
   error_50002,
   error_50004,
   error_50005,
+  error_50006,
 } = require("../error");
 
 /** 新用户注册 */
@@ -142,4 +143,41 @@ const userInfoHandler = (req, res) => {
   });
 };
 
-module.exports = { registerHandler, loginHandler, userInfoHandler };
+/** 修改用户信息 */
+const modifyUserHandler = (req, res) => {
+  const { nickname, email, id } = req.body;
+
+  const userInfo = {
+    nickname,
+    email,
+    id,
+  };
+
+  const sqlStr = `update ev_users set ? where id=?`;
+
+  db.query(sqlStr, [userInfo, id], (err, result) => {
+    if (err) {
+      /** 调用自定义 send函数  */
+      return res.customSend({ ...error_50000, msg: err.message }, 500);
+    }
+    if (result.affectedRows !== 1) {
+      return res.customSend({ ...error_50006 }, 500);
+    }
+
+    // 更新成功
+    const data = {
+      msg: "ok",
+      data: {},
+    };
+    /** 调用自定义 send函数  */
+    return res.customSend(data);
+  });
+};
+
+// 导出
+module.exports = {
+  registerHandler,
+  loginHandler,
+  userInfoHandler,
+  modifyUserHandler,
+};

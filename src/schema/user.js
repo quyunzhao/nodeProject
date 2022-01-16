@@ -41,11 +41,20 @@ const loginSchema = {
     password: Joi.string()
       .pattern(/^[\S]{6,15}$/)
       .required(),
-    // repassword: Joi.ref("password"),
+    repassword: Joi.ref("password"),
+  },
+};
+
+const modifySchema = {
+  body: {
+    id: Joi.number().integer().min(1).required(),
+    nickname: Joi.string().required(),
+    email: Joi.string().email().required(),
   },
 };
 
 module.exports = {
   registerSchema,
   loginSchema,
+  modifySchema,
 };
