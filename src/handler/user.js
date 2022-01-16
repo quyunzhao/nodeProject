@@ -57,11 +57,15 @@ const registerHandler = (req, res) => {
 
 /** 登录*/
 const loginHandler = (req, res) => {
-  res.send({
-    code: "login",
-    data: { data: "" },
-    msg: " ",
-  });
+  const data = {
+    msg: "ok",
+    data: {
+      token: "",
+    },
+  };
+
+  /** 调用自定义 send函数  */
+  return res.customSend(data);
 };
 
 module.exports = { registerHandler, loginHandler };

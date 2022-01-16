@@ -31,7 +31,7 @@ const registerSchema = {
     password: Joi.string()
       .pattern(/^[\S]{6,15}$/)
       .required(),
-    // repassword: Joi.ref("password"),
+    repassword: Joi.ref("password"),
   },
 };
 
