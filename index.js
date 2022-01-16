@@ -2,6 +2,12 @@ const express = require("express");
 
 const cors = require("cors");
 
+// 导入 jwt 解密包
+const expressJWT = require("express-jwt");
+
+// 导入密钥
+const { secretKey } = require("./config/cfg.json");
+
 /** 导入自定义send 函数 */
 const mySend = require("./src/customMiddleware/send");
 
@@ -30,6 +36,21 @@ app.use(cors());
 // 一定要在路由之前封装res.send函数
 // 注册全局  mySend 函数
 app.use(mySend);
+
+// 将 jwt 字符串解析为对象
+// 接口白名单
+const witeList = ["/", "/register", "/login"].map((item) => {
+  return prefixApi + item;
+});
+app.use(
+  expressJWT({
+    secret: secretKey,
+    algorithms: ["HS256"],
+    credentialsRequired: true, // 游客校验 设置为 false 就不校验了
+  }).unless({
+    path: [...witeList], // 设置白名单
+  })
+);
 
 // 添加前缀 注册路由
 app.use(prefixApi, userRouter);

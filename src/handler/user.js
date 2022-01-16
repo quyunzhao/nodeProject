@@ -4,6 +4,12 @@ const db = require("../../db");
 // 密码加密
 const bcrypt = require("bcryptjs");
 
+// 导入 jwt 加密包
+const jwt = require("jsonwebtoken");
+
+// 导入密钥
+const { secretKey, expiresIn } = require("../../config/cfg.json");
+
 const {
   error_50000,
   error_50001,
@@ -92,7 +98,9 @@ const loginHandler = (req, res) => {
     }
 
     // 生成 jwt 的 token
-    const token = "";
+    // 会自动挂载到 req.user 上
+    const token = "Bearer " + jwt.sign({ username }, secretKey, { expiresIn });
+
     const data = {
       msg: "ok",
       data: {
