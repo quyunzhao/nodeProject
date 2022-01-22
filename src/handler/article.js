@@ -222,6 +222,7 @@ const formDataHandler = (req, res) => {
   const data = {
     body: req.body,
     query: req.query,
+    // files: JSON.stringify(req.files),
     files: req.files,
   };
   return res.customSend(data);

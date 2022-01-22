@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+  </head>
+
+  <body>
+    <!-- MIME -->
+    <input
+      type="file"
+      id="inputFile"
+      onchange="sendFile()"
+      multiple="multiple"
+      accept="image/png"
+    />
+  </body>
+
+  <script>
+    const sendFile = () => {
+      const fm = new FormData();
+
+      const inputDom = document.getElementById("inputFile");
+      const file = inputDom?.files[0];
+      const files = inputDom?.files;
+
+      for (let index = 0; index < files.length; index++) {
+        const element = files[index];
+        fm.append("file", element);
+      }
+
+      // files.forEach((element) => {
+      //   fm.append("files", element);
+      // });
+      // fm.append("files", file);
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("POST", "http://127.0.0.1:3212/nodeApi/article/formData");
+
+      xhr.setRequestHeader(
+        "Authorization",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjE1LCJpYXQiOjE2NDI4NTI1NDAsImV4cCI6MTY0Mjg4ODU0MH0.jKWR4NvR6jbsHDb6lUFwtjwkSlJMjweTVfF8yfDl6-k"
+      );
+      xhr.send(fm);
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4) {
+          // 4 = "loaded"
+          if (xhr.status == 200) {
+            console.log(xhr.response);
+          }
+        }
+      };
+    };
+  </script>
+</html>
