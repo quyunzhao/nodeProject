@@ -1,4 +1,5 @@
 // 导入数据库操作模块
+const { json } = require("express/lib/response");
 const db = require("../../db");
 
 // 错误码
@@ -207,6 +208,11 @@ const updateCatesHandler = (req, res) => {
   });
 };
 
+/** 发布文章 */
+const addCatesHandler = (req, res) => {
+  return res.customSend({ data: req.body });
+};
+
 // 导出
 module.exports = {
   catesHandler,
@@ -214,4 +220,5 @@ module.exports = {
   deleteCatesHandler,
   catesByIdHandler,
   updateCatesHandler,
+  addCatesHandler,
 };

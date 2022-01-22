@@ -7,6 +7,7 @@ const mySend = (req, res, next) => {
    * @param err err的值可能是一个错误对象，也可能是一个错误描述的字符串
    * @param status 默认值为1 表示失败
    */
+  // console.log(req);
   res.customSend = (data, statusCode = 200, err = "", status = 1) => {
     res.status(statusCode).send(data);
   };

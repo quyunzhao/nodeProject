@@ -11,6 +11,7 @@ const {
   deleteCatesSchema,
   catesByIdSchema,
   updateCatesSchema,
+  addSchema,
 } = require("../schema/article");
 
 // 导入处理函数
@@ -20,6 +21,7 @@ const {
   deleteCatesHandler,
   catesByIdHandler,
   updateCatesHandler,
+  addCatesHandler,
 } = require("../handler/article");
 
 /** 文章列表 */
@@ -42,7 +44,8 @@ router.get("/cates/:id", expressJoi(catesByIdSchema), catesByIdHandler);
 router.post("/updateCates", expressJoi(updateCatesSchema), updateCatesHandler);
 
 /** 发布文章 */
-router.post("/updateCates", expressJoi(updateCatesSchema), updateCatesHandler);
+router.post("/add", expressJoi(addSchema), addCatesHandler);
+// router.post("/add", addCatesHandler);
 
 // 导出模块
 module.exports = router;
