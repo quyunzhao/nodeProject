@@ -22,6 +22,7 @@ const {
   catesByIdHandler,
   updateCatesHandler,
   addCatesHandler,
+  formDataHandler,
 } = require("../handler/article");
 
 /** 文章列表 */
@@ -45,7 +46,9 @@ router.post("/updateCates", expressJoi(updateCatesSchema), updateCatesHandler);
 
 /** 发布文章 */
 router.post("/add", expressJoi(addSchema), addCatesHandler);
-// router.post("/add", addCatesHandler);
+
+/** formData */
+router.post("/formData", formDataHandler);
 
 // 导出模块
 module.exports = router;

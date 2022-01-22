@@ -35,10 +35,10 @@ const updateCatesSchema = {
 /** 发布文章 */
 const addSchema = {
   body: {
-    // title: Joi.string().required(),
-    // content: Joi.string().required(),
-    // cover_img: Joi.string().required(),
-    // pub_date: Joi.date().timestamp().required(),
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+    cover_img: Joi.string().required(),
+    pub_date: Joi.date().timestamp().required(),
   },
 };
 

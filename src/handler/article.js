@@ -210,7 +210,20 @@ const updateCatesHandler = (req, res) => {
 
 /** 发布文章 */
 const addCatesHandler = (req, res) => {
-  return res.customSend({ data: req.body });
+  const data = {
+    body: req.body,
+    query: req.query,
+  };
+  return res.customSend(data);
+};
+
+/** formData */
+const formDataHandler = (req, res) => {
+  const data = {
+    body: req.body,
+    query: req.query,
+  };
+  return res.customSend(data);
 };
 
 // 导出
@@ -221,4 +234,5 @@ module.exports = {
   catesByIdHandler,
   updateCatesHandler,
   addCatesHandler,
+  formDataHandler,
 };

@@ -6,8 +6,11 @@ const cors = require("cors");
 // 导入 jwt 解密包
 const expressJWT = require("express-jwt");
 
-// 导入 解析 formData 请求数据
+// 导入 application/json urlencoded 请求数据
 const bodyParser = require("body-parser");
+
+/* 导入 解析 multipart/form-data */
+const multipart = require("connect-multiparty");
 
 // 导入密钥
 const { secretKey } = require("./config");
@@ -31,10 +34,13 @@ const articleRouter = require("./src/router/article");
 const app = express();
 
 // 通过 express.json() 中间键解析表单中的 json 数据
-app.use(bodyParser.json()); // 数据JSON类型
+app.use(express.json()); // 数据JSON类型
 
 // 通过 express.urlencoded() 中间键解析表达中的 url-encoded 数据
-app.use(bodyParser.urlencoded({ extended: false })); //解析post请求数据
+app.use(express.urlencoded({ extended: false })); //解析post请求数据
+
+// multipart/form-data
+app.use(multipart());
 
 // 一定要在路由之前导入跨域 cors 中间键，从而解决接口跨域问题
 // 注册全局 跨域 中间键
@@ -59,6 +65,14 @@ app.use(
     path: [...witeList], // 设置白名单
   })
 );
+
+app.post(prefixApi + "/test/formData", (req, res) => {
+  const data = {
+    body: req.body,
+    query: req.query,
+  };
+  res.customSend(data);
+});
 
 // 添加前缀 注册路由
 app.use(prefixApi, userRouter);
