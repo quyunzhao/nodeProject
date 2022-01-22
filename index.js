@@ -70,6 +70,7 @@ app.post(prefixApi + "/test/formData", (req, res) => {
   const data = {
     body: req.body,
     query: req.query,
+    files: req.files,
   };
   res.customSend(data);
 });
