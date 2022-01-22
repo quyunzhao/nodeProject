@@ -1,3 +1,5 @@
+const { getIp } = require("../ip");
+
 /**  自定义send 函数 */
 const mySend = (req, res, next) => {
   /**
@@ -9,7 +11,12 @@ const mySend = (req, res, next) => {
    */
   // console.log(req);
   res.customSend = (data, statusCode = 200, err = "", status = 1) => {
-    res.status(statusCode).send(data);
+    const targetData = {
+      ...data,
+      ip: getIp(req),
+    };
+
+    res.status(statusCode).send(targetData);
   };
 
   next();
