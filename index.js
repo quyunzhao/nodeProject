@@ -34,10 +34,10 @@ const articleRouter = require("./src/router/article");
 const app = express();
 
 // 通过 express.json() 中间键解析表单中的 json 数据
-app.use(express.json()); // 数据JSON类型
+app.use(bodyParser.json()); // 数据JSON类型
 
 // 通过 express.urlencoded() 中间键解析表达中的 url-encoded 数据
-app.use(express.urlencoded({ extended: false })); //解析post请求数据
+app.use(bodyParser.urlencoded({ extended: false })); //解析post请求数据
 
 // multipart/form-data
 app.use(multipart());
